@@ -2,7 +2,6 @@
 import { UserSession, showConnect } from '@stacks/connect';
 import './App.css';
 import Login from "./components/Login";
-import Vote from "./components/Vote";
 import React, { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import {Container} from 'react-bootstrap';
