@@ -36,7 +36,6 @@ export const Header = () => {
         const user = sessionData.authResponsePayload.profile.stxAddress.testnet;
         setUserData(userSession.loadUserData());
 
-        // --- ¡AQUÍ ESTÁ LA LÓGICA DE RUTAS! ---
         // 1. Check si es Admin
         if (user === ADMIN_WALLET) {
           console.log('Redirigiendo a Admin...');

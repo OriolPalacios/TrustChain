@@ -1,8 +1,10 @@
 // src/services/gaiaService.ts
 import { Storage } from '@stacks/storage';
-import { userSession } from './userSessionService'; // <-- ¡IMPORTACIÓN CORREGIDA!
+import { userSession } from './userSessionService';
 
-const storage = new Storage({ userSession });
+const storage = new Storage({ 
+  userSession,
+});
 
 /**
  * Sube un archivo a Gaia y devuelve la URL pública
