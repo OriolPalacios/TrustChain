@@ -40,13 +40,14 @@
 ;; Mapea un ID (uint) a la info del gasto
 (define-map expenses-map uint
   {
-    project-id: uint,           ;; ID del proyecto al que pertenece
-    ong-owner: principal,       ;; Dueno del gasto (para chequeo)
-    monto: uint,                ;; Monto del gasto (ej: u500)
-    concepto: (string-utf8 200), ;; "Compra de arroz"
-    proveedor: (string-utf8 100), ;; "Supermercado S.A.C."
-    timestamp: uint,            ;; Fecha (Date.now())
-    document-url: (string-ascii 128) ;; URL de Gaia (Sugerencia 1)
+    project-id: uint,
+    ong-owner: principal,
+    monto: uint,
+    concepto: (string-utf8 200),
+    proveedor: (string-utf8 100),
+    timestamp: uint,
+    document-url: (string-ascii 128), ;; 
+    document-hash: (string-ascii 64)   ;; 
   }
 )
 
@@ -106,7 +107,8 @@
                                (concepto (string-utf8 200))
                                (proveedor (string-utf8 100))
                                (timestamp uint)
-                               (document-url (string-ascii 128)))
+                               (document-url (string-ascii 128))
+                               (document-hash (string-ascii 64)))
   (begin
     ;; 1. Obtener el proyecto de la base de datos
     (let ((project (unwrap! (map-get? projects-map project-id) ERR-PROJECT-NOT-FOUND)))
@@ -126,7 +128,8 @@
             concepto: concepto,
             proveedor: proveedor,
             timestamp: timestamp,
-            document-url: document-url
+            document-url: document-url,
+            document-hash: document-hash
           }
         ))
           ;; 5. Guardar el gasto en el mapa

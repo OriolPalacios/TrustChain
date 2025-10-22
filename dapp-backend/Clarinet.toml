@@ -5,8 +5,9 @@ authors = []
 telemetry = false
 cache_dir = './.cache'
 requirements = []
-[contracts.traceability]
-path = 'contracts/traceability.clar'
+
+[contracts.traceability-v2]
+path = 'contracts/traceability-v2.clar'
 clarity_version = 3
 epoch = 'latest'
 [repl.analysis]

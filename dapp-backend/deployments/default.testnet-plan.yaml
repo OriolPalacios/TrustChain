@@ -9,10 +9,10 @@ plan:
     - id: 0
       transactions:
         - contract-publish:
-            contract-name: traceability
+            contract-name: traceability-v2
             expected-sender: ST1VSYCCDQ5K5G8TBMPZM3QV2YDGBWWMTWMXJ8XHP
-            cost: 61250
-            path: contracts/traceability.clar
+            cost: 60400
+            path: contracts/traceability-v2.clar
             anchor-block-only: true
             clarity-version: 3
       epoch: "3.2"
