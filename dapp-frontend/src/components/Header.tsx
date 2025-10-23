@@ -154,12 +154,14 @@ export const Header = () => {
               </Nav.Link>
             )}
           </Nav>
-          <Nav>
+          <Nav className='d-flex gap-3'>
             {userData ? (
               <>
-                <Navbar.Text className="me-3">
-                  {getShortAddress()}
-                </Navbar.Text>
+                <div className='border rounded border-warning d-flex justify-content-center align-items-center'>
+                  <Navbar.Text className='p-2'>
+                    {getShortAddress()}
+                  </Navbar.Text>
+                </div>
                 <Button variant="outline-light" onClick={handleLogout}>
                   Cerrar Sesión
                 </Button>
