@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import { FaLock } from 'react-icons/fa'; // Importamos un ícono de confianza
 
 // Estilos en línea para el Hero Section (más rápido que un CSS)
-const heroStyle: React.CSSProperties = {
-  backgroundColor: '#f8f9fa', // Un fondo gris claro
+const heroContainerStyle: React.CSSProperties = {
   padding: '100px 0',
   textAlign: 'center',
-  minHeight: '80vh', // Hacemos que ocupe buena parte de la pantalla
+  minHeight: '80vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  // No overflow: hidden si no hay olas
 };
 
 const trustBadgeStyle: React.CSSProperties = {
@@ -20,43 +20,44 @@ const trustBadgeStyle: React.CSSProperties = {
   alignItems: 'center',
   padding: '8px 16px',
   borderRadius: '20px',
-  backgroundColor: '#e9ecef',
-  color: '#495057',
+  color: '#264653', // Azul oscuro para el texto del badge
   fontWeight: 500,
   marginBottom: '24px',
 };
 
 export const Landing = () => {
   return (
-    <div style={heroStyle}>
+    <div style={heroContainerStyle}>
       <Container>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
-            {/* 1. Indicador de Confianza (Hardcoded como dijimos) */}
             <div style={trustBadgeStyle}>
-              <FaLock style={{ marginRight: '8px' }} />
-              <span>+3 ONGs confían en Trazabilidad dApp</span>
+              <FaLock style={{ marginRight: '8px', color: '#2A9D8F' }} /> {/* Candado color turquesa */}
+              <span>+3 ONGs confían en TrustChain</span>  
             </div>
 
-            {/* 2. Título Principal */}
-            <h1 className="display-3" style={{ fontWeight: 700 }}>
+            <h1 className="display-3" style={{ fontWeight: 700, color: '#0d191eff' }}> {/* Título azul oscuro */}
               Trazabilidad Radical para ONGs
             </h1>
 
-            {/* 3. Subtítulo */}
             <p className="lead mt-3" style={{ fontSize: '1.25rem', color: '#6c757d' }}>
               Sigue cada sol gastado. Construyendo confianza pública con el poder
               de la blockchain de Stacks.
             </p>
 
-            {/* 4. Botón de Acción */}
             <Button
-              as={Link}
-              to="/proyectos" // Enlace a la galería
-              variant="primary"
+              as={Link as any}
+              to="/proyectos"
+              variant="primary" // Usaremos Bootstrap para esto, pero podemos personalizarlo
               size="lg"
               className="mt-4"
-              style={{ padding: '12px 24px', fontSize: '1.1rem' }}
+              style={{
+                padding: '12px 24px',
+                fontSize: '1.1rem',
+                backgroundColor: '#2A9D8F', // Botón principal con el color turquesa
+                borderColor: '#2A9D8F',
+                color: '#FFFFFF'
+              }}
             >
               Ver Gastos Ahora
             </Button>

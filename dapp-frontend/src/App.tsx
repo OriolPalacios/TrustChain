@@ -14,7 +14,7 @@ function App() {
       <Header />
 
       {/* 2. Envuelve las rutas en un Container */}
-      <Container className="mt-4"> 
+      <Container className="mt-4 "> 
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/proyectos" element={<ProyectoGaleria />} />

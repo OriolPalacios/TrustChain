@@ -16,6 +16,8 @@ import {
 // Importamos un ícono (puedes cambiarlo)
 import { FaMoneyBillWave } from 'react-icons/fa'; 
 
+import './ProyectoTimeline.css';
+
 // Definimos los tipos de dato
 interface Project {
   nombre: string;
@@ -173,12 +175,12 @@ export const ProyectoTimeline = () => {
                   contentStyle={{ background: '#fff', color: '#333', border: '1px solid #ddd' }}
                   contentArrowStyle={{ borderRight: '7px solid #ddd' }}
                   date={new Date(gasto.timestamp).toLocaleString()}
-                  iconStyle={{ background: '#0d6efd', color: '#fff' }}
+                  iconStyle={{ background: '#2A9D8F', color: '#fff' }}
                   icon={<FaMoneyBillWave />}
                 >
                   <h3 className="vertical-timeline-element-title">{gasto.concepto}</h3>
                   <h4 className="vertical-timeline-element-subtitle">
-                    <Badge bg="success">Monto: {gasto.monto}</Badge>
+                    <Badge className="timeline-badge">Monto: {gasto.monto}</Badge>
                   </h4>
                   <p>
                     <strong>Proveedor:</strong> {gasto.proveedor}

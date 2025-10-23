@@ -7,7 +7,7 @@ export const userSession = new UserSession({ appConfig });
 export function getAppDetails() {
   return {
     name: 'dApp Trazabilidad',
-    icon: window.location.origin + '/logo.svg', // Puedes cambiar esto luego
+    icon: window.location.origin + '/logo-icon.png', // Puedes cambiar esto luego
   };
 }
 

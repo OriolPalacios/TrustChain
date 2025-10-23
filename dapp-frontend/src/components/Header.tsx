@@ -14,18 +14,47 @@ import {
 import { fetchCallReadOnlyFunction, principalCV, cvToJSON } from '@stacks/transactions';
 import { showConnect } from '@stacks/connect';
 
+type UserRole = 'public' | 'admin' | 'ong';
+
 export const Header = () => {
   const [userData, setUserData] = useState<any>(null);
+  const [userRole, setUserRole] = useState<UserRole>('public');
   const navigate = useNavigate();
   const network = STACKS_NETWORK; // Usamos testnet
 
+  const checkUserRole = async (userPrincipal: string) => {
+    if (userPrincipal === ADMIN_WALLET) {
+      setUserRole('admin');
+      return 'admin';
+    }
+
+    // Check 2: ONG (lectura de contrato)
+    try {
+      const isOng = await checkIsOng(userPrincipal);
+      if (isOng) {
+        setUserRole('ong');
+        return 'ong';
+      }
+    } catch (e) {
+      console.error('Error en checkIsOng:', e);
+    }
+
+    setUserRole('public');
+    return 'public';
+  };
+
   useEffect(() => {
     if (userSession.isUserSignedIn()) {
-      setUserData(userSession.loadUserData());
+      const loadedUserData = userSession.loadUserData();
+      setUserData(loadedUserData);
+      // Comprueba el rol del usuario que ya está logueado
+      checkUserRole(loadedUserData.profile.stxAddress.testnet);
     } else {
       setUserData(null);
+      setUserRole('public'); // Si no hay sesión, es público
     }
   }, []);
+
 
   const handleLogin = async () => {
     const appDetails = getAppDetails();
@@ -35,26 +64,12 @@ export const Header = () => {
       onFinish: async (sessionData) => {
         const user = sessionData.authResponsePayload.profile.stxAddress.testnet;
         setUserData(userSession.loadUserData());
-
-        // 1. Check si es Admin
-        if (user === ADMIN_WALLET) {
-          console.log('Redirigiendo a Admin...');
+        const role = await checkUserRole(user);
+        if (role === 'admin') {
           navigate('/admin');
-          return;
-        }
-
-        // 2. Check si es una ONG registrada
-        try {
-          const isOng = await checkIsOng(user);
-          if (isOng) {
-            console.log('Redirigiendo a Portal ONG...');
-            navigate('/portal');
-          } else {
-            console.log('Usuario público, redirigiendo a home...');
-            navigate('/');
-          }
-        } catch (error) {
-          console.error('Error verificando ONG:', error);
+        } else if (role === 'ong') {
+          navigate('/portal');
+        } else {
           navigate('/');
         }
       },
@@ -88,6 +103,7 @@ export const Header = () => {
   const handleLogout = () => {
     userSession.signUserOut('/');
     setUserData(null);
+    setUserRole('public');
     navigate('/'); // Redirige a la landing al salir
   };
 
@@ -100,16 +116,43 @@ export const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">
-          dApp Trazabilidad
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+          <img
+            src="/logo-icon.png"
+            width="40"
+            height="50"
+            className="d-inline-block align-top me-2"
+            alt="TrustChain Logo"
+          />
+          <span style={{ fontWeight: 600, color: '#FFFFFF' }}>TrustChain</span> {/* Texto blanco */}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {/* Estos son los enlaces públicos de tu mockup */}
             <Nav.Link as={Link} to="/proyectos">
               Ver Gastos (Proyectos)
             </Nav.Link>
+            {userRole === 'admin' && (
+              <Nav.Link 
+                as={Link} 
+                to="/admin" 
+                className="fw-bold" 
+                style={{ color: '#F4A261' }} // Naranja de tu paleta
+              >
+                Panel de Admin
+              </Nav.Link>
+            )}
+
+            {userRole === 'ong' && (
+              <Nav.Link 
+                as={Link} 
+                to="/portal" 
+                className="fw-bold" 
+                style={{ color: '#2A9D8F' }} // Turquesa de tu paleta
+              >
+                Portal ONG
+              </Nav.Link>
+            )}
           </Nav>
           <Nav>
             {userData ? (

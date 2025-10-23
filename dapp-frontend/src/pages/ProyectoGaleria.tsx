@@ -8,6 +8,14 @@ import {
   CONTRACT_NAME,
   STACKS_NETWORK,
 } from '../config';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+// Colores de tu paleta
+const COLOR_PALETTE = {
+  primary: '#2A9D8F',   // Turquesa
+  accent: '#F4A261',    // Naranja
+  darkText: '#264653',  // Azul oscuro
+  lightBg: '#F8F9FA',
+};
 
 // Definimos el tipo de dato para el Proyecto
 interface Project {
@@ -92,18 +100,22 @@ export const ProyectoGaleria = () => {
 
   return (
     <Container className="mt-5">
-      <Row className="mb-4">
+      <Row className="mb-4 text-center">
         <Col>
-          <h1>Proyectos de Trazabilidad</h1>
-          <p>Explora todos los proyectos y sigue el rastro de cada gasto.</p>
+          <h1 style={{ color: COLOR_PALETTE.darkText, fontWeight: 700 }}>
+            Proyectos de Impacto
+          </h1>
+          <p className="lead" style={{ color: COLOR_PALETTE.darkText, opacity: 0.8 }}>
+            Explora todas las iniciativas y sigue el rastro de cada gasto.
+            La transparencia es nuestra misión.
+          </p>
         </Col>
       </Row>
       
       {loading && (
-        <div className="text-center">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Cargando...</span>
-          </Spinner>
+        <div className="text-center py-5">
+          <Spinner animation="border" role="status" style={{ color: COLOR_PALETTE.primary }} />
+          <p className="mt-2" style={{ color: COLOR_PALETTE.darkText }}>Cargando proyectos...</p>
         </div>
       )}
 
@@ -112,29 +124,69 @@ export const ProyectoGaleria = () => {
       {!loading && !error && (
         <Row xs={1} md={2} lg={3} className="g-4">
           {projects.length === 0 ? (
-            <Col>
-              <Alert variant="info">Aún no se han creado proyectos.</Alert>
+            <Col xs={12}>
+              <Alert variant="info" className="text-center">
+                Aún no se han creado proyectos. ¡Invita a una ONG a unirse!
+              </Alert>
             </Col>
           ) : (
             projects.map((project) => (
               <Col key={project.id}>
-                <Card className="h-100">
-                  <Card.Body>
-                    <Card.Title>{project.nombre}</Card.Title>
-                    <Card.Text>
-                      {project.descripcion.substring(0, 100)}...
+                {/* Tarjeta personalizada */}
+                <Card 
+                  className="h-100" 
+                  style={{ 
+                    border: 'none', 
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    borderRadius: '12px',
+                    transition: 'transform 0.2s ease-in-out',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0px)'}
+                >
+                  <Card.Header 
+                    style={{ 
+                      backgroundColor: COLOR_PALETTE.darkText, 
+                      color: 'white',
+                      fontWeight: 600,
+                      borderTopLeftRadius: '12px',
+                      borderTopRightRadius: '12px',
+                    }}
+                  >
+                    {project.nombre}
+                  </Card.Header>
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Text style={{ flexGrow: 1, color: '#555' }}>
+                      {project.descripcion.substring(0, 120)}...
                     </Card.Text>
-                    <Card.Subtitle className="mb-2 text-muted" style={{fontSize: '0.8rem'}}>
-                      ONG: {project['ong-owner'].substring(0, 5)}...{project['ong-owner'].substring(project['ong-owner'].length - 5)}
-                    </Card.Subtitle>
-                    <Button 
-                      as={Link as any} 
-                      to={`/proyecto/${project.id}`} 
-                      variant="primary"
-                    >
-                      Ver Gastos
-                    </Button>
+                    
+                    <div className="mt-3">
+                      <Button 
+                        as={Link as any} 
+                        to={`/proyecto/${project.id}`} 
+                        variant="primary" // Usamos el 'variant' pero lo sobrescribimos
+                        className="w-100"
+                        style={{
+                          backgroundColor: COLOR_PALETTE.primary,
+                          borderColor: COLOR_PALETTE.primary,
+                          fontWeight: 500
+                        }}
+                      >
+                        Ver Trazabilidad <FaExternalLinkAlt size="0.8em" className="ms-1" />
+                      </Button>
+                    </div>
                   </Card.Body>
+                  <Card.Footer 
+                    className="text-muted" 
+                    style={{
+                      fontSize: '0.8rem', 
+                      backgroundColor: '#fff',
+                      borderBottomLeftRadius: '12px',
+                      borderBottomRightRadius: '12px',
+                    }}
+                  >
+                    Gestionado por: {project['ong-owner'].substring(0, 5)}...{project['ong-owner'].substring(project['ong-owner'].length - 5)}
+                  </Card.Footer>
                 </Card>
               </Col>
             ))
