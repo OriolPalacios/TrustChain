@@ -22,8 +22,6 @@ import {
   cvToJSON,
   stringUtf8CV,
   uintCV,
-  standardPrincipalCV,
-  principalCV,
   stringAsciiCV, // Para la URL de Gaia
 } from '@stacks/transactions';
 
@@ -210,7 +208,7 @@ export const OngPortal = () => {
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('facturas') // El nombre de tu bucket
         .upload(fileName, expenseFile);
-
+      console.log(uploadData);
       if (uploadError) {
         throw uploadError;
       }
